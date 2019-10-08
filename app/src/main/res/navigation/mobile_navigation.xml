@@ -11,17 +11,12 @@
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
-    <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.restperformancetest.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.example.restperformancetest.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:name="com.example.restperformancetest.ui.saved_recordings.SavedRecordingsFragment"
+        android:label="@string/menu_saved_recordings"
+        tools:layout="@layout/fragment_saved_recordings" />
 
     <fragment
         android:id="@+id/nav_tools"
@@ -29,11 +24,6 @@
         android:label="@string/menu_tools"
         tools:layout="@layout/fragment_tools" />
 
-    <fragment
-        android:id="@+id/nav_share"
-        android:name="com.example.restperformancetest.ui.share.ShareFragment"
-        android:label="@string/menu_share"
-        tools:layout="@layout/fragment_share" />
 
     <fragment
         android:id="@+id/nav_send"
