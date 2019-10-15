@@ -13,7 +13,7 @@
 
 
     <fragment
-        android:id="@+id/nav_slideshow"
+        android:id="@+id/nav_saved_recordings"
         android:name="com.example.restperformancetest.ui.saved_recordings.SavedRecordingsFragment"
         android:label="@string/menu_saved_recordings"
         tools:layout="@layout/fragment_saved_recordings" />

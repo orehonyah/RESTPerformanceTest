@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
                 Snackbar.make(view, "recording started", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
+                //fab.setc버튼 아이콘 바꾸는거 해야됨
+                
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);//메뉴 서랍(옆에서 나오는 것)

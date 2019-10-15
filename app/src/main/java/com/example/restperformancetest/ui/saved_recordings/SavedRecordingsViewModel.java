@@ -10,7 +10,7 @@ public class SavedRecordingsViewModel extends ViewModel {
 
     public SavedRecordingsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        mText.setValue("This is saved recordings fragment");
     }
 
     public LiveData<String> getText() {
