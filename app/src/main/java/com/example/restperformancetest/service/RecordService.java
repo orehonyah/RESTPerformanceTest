@@ -61,7 +61,6 @@ public class RecordService extends Service {
             Log.d(Log_Tag, "onStart()");
             recorder.start();//녹음 시작
 
-
         } else {
             Toast.makeText(this, "Record Service가 정지되었습니다.", Toast.LENGTH_LONG).show();
             Log.d(Log_Tag, "onDestroy()");
