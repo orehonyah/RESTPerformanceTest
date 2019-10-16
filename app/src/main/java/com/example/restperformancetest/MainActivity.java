@@ -2,6 +2,7 @@ package com.example.restperformancetest;
 
 import android.os.Bundle;
 
+import com.example.restperformancetest.functions.SpeakingRecorder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -31,17 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Snackbar.make(view, "recording started", Snackbar.LENGTH_SHORT)
-                        .setAction("Action", null).show();
-                //fab.setc버튼 아이콘 바꾸는거 해야됨
-                
-            }
-        });
+        final SpeakingRecorder recorder= new SpeakingRecorder((FloatingActionButton)findViewById(R.id.fab));
         DrawerLayout drawer = findViewById(R.id.drawer_layout);//메뉴 서랍(옆에서 나오는 것)
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
