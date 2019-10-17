@@ -2,6 +2,7 @@ package com.example.restperformancetest;
 
 import android.os.Bundle;
 
+import com.example.restperformancetest.functions.CheckPermissions;
 import com.example.restperformancetest.functions.RecordManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -32,7 +33,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        CheckPermissions.setActivity(this);
+        CheckPermissions.checkPermissions();
+
         final RecordManager recordManager= RecordManager.manager;//녹음 관련 관리해주는 클래스.
+        RecordManager.setActivity(this);
         final FloatingActionButton fab= findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
