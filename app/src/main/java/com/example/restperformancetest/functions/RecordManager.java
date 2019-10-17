@@ -35,7 +35,7 @@ public class RecordManager {
 
     /* instance variables */
     private boolean recording;
-    LinkedList<Runnable> nextjobs;
+    LinkedList<Runnable> nextjobs;//버튼 on/off시 수행할 작업 목록
     private boolean successful;
 
     /* constructor */
@@ -66,7 +66,7 @@ public class RecordManager {
         this.recording = false;
         this.successful = true;
     }
-    public boolean isServiceRunning(){
+    public boolean isServiceRunning(){//서비스가 실행 중인지 확인하는 메소드
         ActivityManager manager = (ActivityManager) activity.getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
 
         for (ActivityManager.RunningServiceInfo serviceInfo : manager.getRunningServices(Integer.MAX_VALUE))

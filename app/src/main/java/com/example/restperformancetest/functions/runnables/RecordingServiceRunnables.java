@@ -1,7 +1,6 @@
 package com.example.restperformancetest.functions.runnables;
 
 import android.content.Intent;
-import android.os.Build;
 
 import com.example.restperformancetest.functions.RecordManager;
 import com.example.restperformancetest.service.RecordService;

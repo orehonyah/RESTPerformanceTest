@@ -9,12 +9,10 @@ import com.example.restperformancetest.ui.home.HomeFragment;
 import com.example.restperformancetest.ui.home.HomeViewModel;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static android.content.Context.MODE_PRIVATE;
 
 public class RecordingTimer{
     //class variables

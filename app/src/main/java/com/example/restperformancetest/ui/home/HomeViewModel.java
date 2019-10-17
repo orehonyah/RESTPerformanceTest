@@ -19,7 +19,7 @@ public class HomeViewModel extends ViewModel {
         timerText = new MutableLiveData<>();
         timerText.setValue("00:00:00");
         statusText = new MutableLiveData<>();
-        statusText.setValue("00:00:00");
+        statusText.setValue("하단의 스피커 버튼을 눌러 녹음 시작");
 
     }
 
