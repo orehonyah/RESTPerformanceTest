@@ -10,7 +10,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.restperformancetest.R;
@@ -19,6 +21,7 @@ import com.example.restperformancetest.functions.SavedRecordings;
 import java.util.LinkedList;
 
 public class SavedRecordingsFragment extends Fragment {
+    private SavedRecordingsFragment thisSavedRecordingsFragment;
 
     private static SavedRecordingsViewModel savedRecordingsViewModel;
     public static SavedRecordingsViewModel savedRecordingsViewModel(){
@@ -30,6 +33,9 @@ public class SavedRecordingsFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_saved_recordings, container, false);
         LinearLayout savedRecordingsLayout = root.findViewById(R.id.view_saved_recordings);
         LinkedList<String> files = SavedRecordings.fileNames();
+
+        thisSavedRecordingsFragment = this;
+
         for(String fileName : files){
             View itemxml = inflater.inflate(R.layout.record_item,container, false);
             LinearLayout item = (LinearLayout)itemxml.getRootView();
@@ -45,6 +51,15 @@ public class SavedRecordingsFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     SavedRecordings.play(fileName, seebar.getProgress());
+                    if(savedRecordingsViewModel.getmInteger().hasObservers()){
+                        savedRecordingsViewModel.getmInteger().removeObservers(thisSavedRecordingsFragment);
+                    }
+                    savedRecordingsViewModel.getmInteger().observe(thisSavedRecordingsFragment, new Observer<Integer>() {
+                        @Override
+                        public void onChanged(@Nullable Integer s) {
+                            seebar.setProgress(s);
+                        }
+                    });
                 }
             });
             ib_pause.setOnClickListener(new View.OnClickListener() {

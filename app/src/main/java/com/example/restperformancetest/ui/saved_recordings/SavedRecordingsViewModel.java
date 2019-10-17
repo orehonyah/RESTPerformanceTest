@@ -6,15 +6,16 @@ import androidx.lifecycle.ViewModel;
 
 public class SavedRecordingsViewModel extends ViewModel {
 
-    private MutableLiveData<Integer> mText;
+    private MutableLiveData<Integer> mInteger;
     public SavedRecordingsViewModel() {
-        mText = new MutableLiveData<>();
+        mInteger = new MutableLiveData<>();
+        mInteger.setValue(0);
     }
 
-    public LiveData<Integer> getmText() {
-        return mText;
+    public LiveData<Integer> getmInteger() {
+        return mInteger;
     }
-    public void setmText(Integer message){
-        mText.setValue(message);
+    public void setmInteger(Integer message){
+        mInteger.setValue(message);
     }
 }
