@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         CheckPermissions.setActivity(this);
         CheckPermissions.checkPermissions();
-
+        
         RecordManager.setActivity(this);
         final RecordManager recordManager= RecordManager.getManager();//녹음 관련 관리해주는 클래스.
         final FloatingActionButton fab= findViewById(R.id.fab);

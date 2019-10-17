@@ -11,6 +11,12 @@ public class CheckPermissions {
     final static int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     final static int MY_PERMISSIONS_REQUEST_RECORD_AUDIO = 2;
     private static Activity activity;
+    private final static String[] PERMISSIONS = {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.WAKE_LOCK,
+            Manifest.permission.INTERNET
+    };
     final static CheckPermissions cp = new CheckPermissions();
 
     private CheckPermissions(){}
@@ -20,23 +26,37 @@ public class CheckPermissions {
     public static boolean checkPermissions(){
         return cp.run();
     }
+    private boolean checkSelfPermission(){//한 번도 퍼미션 체크가 실행된 적이 없을 때 false
+        for(String perm : PERMISSIONS){
+            if(ContextCompat.checkSelfPermission(CheckPermissions.activity,perm)== PackageManager.PERMISSION_GRANTED){
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean shouldShowRequestPermissionRationale(){
+        for(String perm:PERMISSIONS){
+            if(ActivityCompat.shouldShowRequestPermissionRationale(CheckPermissions.activity,Manifest.permission.RECORD_AUDIO)){
+                return true;
+            }
+        }
+        return false;
+    }
     private boolean run(){
         // Here, thisActivity is the current activity
-        if (ContextCompat.checkSelfPermission(CheckPermissions.activity,Manifest.permission.RECORD_AUDIO)!= PackageManager.PERMISSION_GRANTED
-        ||ContextCompat.checkSelfPermission(CheckPermissions.activity,Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+        if (checkSelfPermission()) {
 
             // Permission is not granted
             // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(CheckPermissions.activity,Manifest.permission.RECORD_AUDIO)
-            ||ActivityCompat.shouldShowRequestPermissionRationale(CheckPermissions.activity,Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            if (shouldShowRequestPermissionRationale()) {
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
-                ActivityCompat.requestPermissions(CheckPermissions.activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.RECORD_AUDIO},MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+                ActivityCompat.requestPermissions(CheckPermissions.activity, PERMISSIONS,MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
                 return check();
             } else {
                 // No explanation needed; request the permission
-                ActivityCompat.requestPermissions(CheckPermissions.activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.RECORD_AUDIO},MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+                ActivityCompat.requestPermissions(CheckPermissions.activity, PERMISSIONS,MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
                 //ActivityCompat.requestPermissions(CheckPermissions.activity, new String[]{Manifest.permission.RECORD_AUDIO},MY_PERMISSIONS_REQUEST_RECORD_AUDIO);
                 // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                 // app-defined int constant. The callback method gets the
@@ -49,10 +69,8 @@ public class CheckPermissions {
         }
     }
     private boolean check(){
-        if (ContextCompat.checkSelfPermission(CheckPermissions.activity,Manifest.permission.RECORD_AUDIO)!= PackageManager.PERMISSION_GRANTED
-                ||ContextCompat.checkSelfPermission(CheckPermissions.activity,Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(CheckPermissions.activity,Manifest.permission.RECORD_AUDIO)
-                    ||ActivityCompat.shouldShowRequestPermissionRationale(CheckPermissions.activity,Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+        if (checkSelfPermission()) {
+            if (shouldShowRequestPermissionRationale()) {
                 return false;
             } else {
                 return false;
