@@ -35,13 +35,14 @@ public class SavedRecordings {
         return result;
     }
     public static void play(String fileName, int progress){
+        MediaPlayer tmpmp;
         if(SavedRecordings.playingFile ==null){
             playing = true;
             playingFile = fileName;
-            mp = MediaPlayer.create(RecordManager.activity(), Uri.parse(ROOTDIR + PATHDIR + fileName));
-            mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            tmpmp = MediaPlayer.create(RecordManager.activity(), Uri.parse(ROOTDIR + PATHDIR + fileName));
+            tmpmp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
-                public void onCompletion(MediaPlayer mp1) {
+                public void onCompletion(MediaPlayer mp) {
                     MainActivity.handler().post(new Runnable() {
                         @Override
                         public void run() {
@@ -53,6 +54,7 @@ public class SavedRecordings {
                     SavedRecordings.playingFile =null;
                 }
             });
+            mp = tmpmp;
             seekTo(fileName, progress);
             setProgressListener();
             mp.start();
@@ -87,9 +89,10 @@ public class SavedRecordings {
     public static void setProgressListener(){
         progressBarUpdater = new Timer();
         progressBarUpdater.schedule(new TimerTask() {
+            MediaPlayer tmpmp = mp;
             @Override
             public void run() {
-                final int progress = mp.getCurrentPosition()*100/mp.getDuration();
+                final int progress = tmpmp.getCurrentPosition()*100/tmpmp.getDuration();
                 MainActivity.handler().post(new Runnable() {
                     @Override
                     public void run() {
@@ -97,7 +100,7 @@ public class SavedRecordings {
                     }
                 });
             }
-        }, 0, 10);
+        }, 0, 50);
     }
     public static void pauseProgressListener(){
         progressBarUpdater.cancel();
