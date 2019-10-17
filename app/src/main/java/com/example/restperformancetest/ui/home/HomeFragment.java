@@ -16,18 +16,28 @@ import com.example.restperformancetest.R;
 
 public class HomeFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
-
+    private static HomeViewModel homeViewModel;
+    public static HomeViewModel homeViewModel(){
+        return HomeFragment.homeViewModel;
+    }
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        final TextView textView = root.findViewById(R.id.main_timer_textbox);
-        homeViewModel.getText().observe(this, new Observer<String>() {
+
+        final TextView timerTextView = root.findViewById(R.id.main_timer_textbox);
+        homeViewModel.getTimerText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                textView.setText(s);
+                timerTextView.setText(s);
+            }
+        });
+        final TextView statusTextView = root.findViewById(R.id.main_status_textbox);
+        homeViewModel.getStatusText().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                statusTextView.setText(s);
             }
         });
         return root;

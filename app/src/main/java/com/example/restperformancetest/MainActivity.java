@@ -19,6 +19,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.os.Handler;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
@@ -26,19 +27,20 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-
+    private static Handler handler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        MainActivity.handler = new Handler();
 
         CheckPermissions.setActivity(this);
         CheckPermissions.checkPermissions();
 
-        final RecordManager recordManager= RecordManager.manager;//녹음 관련 관리해주는 클래스.
         RecordManager.setActivity(this);
+        final RecordManager recordManager= RecordManager.getManager();//녹음 관련 관리해주는 클래스.
         final FloatingActionButton fab= findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,5 +91,8 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+    public static Handler handler(){
+        return MainActivity.handler;
     }
 }

@@ -36,7 +36,8 @@ public class RecordService extends Service {
     @Override
     public void onDestroy() {
         //서비스가 중지되면 녹음을 중지한다
-        Toast.makeText(this, "Record Service가 중지되었습니다.", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Record Service가 중지되었습니다.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, RecordService.filename+" 에 저장되었습니다.", Toast.LENGTH_LONG).show();
         Log.d(Log_Tag, "onDestroy()");
         recorder.stop();
         recorder.release();
@@ -51,7 +52,7 @@ public class RecordService extends Service {
         File file = new File(filename+"/AAA");
         file.mkdirs();
 
-        filename += "/AAA/"+new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss").format(new Date())+".3gp";
+        filename += "/AAA/"+new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss").format(new Date(System.currentTimeMillis()))+".3gp";
         if (recorder == null) {
             recorder = new MediaRecorder();
             recorder.setAudioSource(MediaRecorder.AudioSource.MIC);//마이크 사용

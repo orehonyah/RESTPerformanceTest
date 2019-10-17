@@ -6,14 +6,27 @@ import androidx.lifecycle.ViewModel;
 
 public class HomeViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private MutableLiveData<String> timerText;
+    private MutableLiveData<String> statusText;
 
+    public void setTimerText(String value){
+        timerText.setValue(value);
+    }
+    public void setStatusText(String value){
+        statusText.setValue(value);
+    }
     public HomeViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        timerText = new MutableLiveData<>();
+        timerText.setValue("00:00:00");
+        statusText = new MutableLiveData<>();
+        statusText.setValue("00:00:00");
+
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<String> getTimerText() {
+        return timerText;
+    }
+    public LiveData<String> getStatusText() {
+        return statusText;
     }
 }
