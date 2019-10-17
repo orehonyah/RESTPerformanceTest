@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.example.restperformancetest.functions.SavedRecordings;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -17,7 +19,7 @@ import java.util.Date;
 
 public class RecordService extends Service {
 
-    private static final String Log_Tag = "RecorderService";
+    private static final String LOG_TAG = "RecorderService";
     private static MediaRecorder recorder =  null;
     private static String filename = null;
 
@@ -38,7 +40,7 @@ public class RecordService extends Service {
         //서비스가 중지되면 녹음을 중지한다
         Toast.makeText(this, "Record Service가 중지되었습니다.", Toast.LENGTH_SHORT).show();
         Toast.makeText(this, RecordService.filename+" 에 저장되었습니다.", Toast.LENGTH_LONG).show();
-        Log.d(Log_Tag, "onDestroy()");
+        Log.d(LOG_TAG, "onDestroy()");
         recorder.stop();
         recorder.release();
         recorder = null;
@@ -48,11 +50,11 @@ public class RecordService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         //서비스가 시작 될 때마다 녹음을 시작한다
 
-        filename = Environment.getExternalStorageDirectory().getAbsolutePath();
-        File file = new File(filename+"/AAA");
+        filename = SavedRecordings.ROOTDIR + SavedRecordings.PATHDIR;
+        File file = new File(filename);
         file.mkdirs();
 
-        filename += "/AAA/"+new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss").format(new Date(System.currentTimeMillis()))+".3gp";
+        filename += new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss").format(new Date(System.currentTimeMillis()))+".3gp";
         if (recorder == null) {
             recorder = new MediaRecorder();
             recorder.setAudioSource(MediaRecorder.AudioSource.MIC);//마이크 사용
@@ -63,10 +65,10 @@ public class RecordService extends Service {
             try {
                 recorder.prepare();
             } catch (IOException e) {
-                Log.e(Log_Tag, "prepare() failed");
+                Log.e(LOG_TAG, "prepare() failed");
             }
             Toast.makeText(this, "Record Service가 시작되었습니다.", Toast.LENGTH_LONG).show();
-            Log.d(Log_Tag, "onStart()");
+            Log.d(LOG_TAG, "onStart()");
             recorder.start();//녹음 시작
 
         }

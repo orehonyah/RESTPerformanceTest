@@ -22,8 +22,7 @@ public class HomeFragment extends Fragment {
     }
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
+        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         final TextView timerTextView = root.findViewById(R.id.main_timer_textbox);
         homeViewModel.getTimerText().observe(this, new Observer<String>() {

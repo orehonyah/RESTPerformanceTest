@@ -45,18 +45,20 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "recording started", Snackbar.LENGTH_SHORT)
-                        .setAction("Action", null).show();
                 for (Runnable i:recordManager.jobs()) {//해당 상태일 때 해야 하는 job들을 한다.
                     i.run();
                 }
                 if(recordManager.isSuccessful()){//만약 모든 job들이 성공적으로 끝났다면, recordManager
                     if(recordManager.isRecording()){
                         recordManager.setRecordingStateOff();
+                        Snackbar.make(view, "recording end", Snackbar.LENGTH_SHORT)
+                                .setAction("Action", null).show();
                         fab.setImageResource(RecordManager.FLOATINGACTIONBUTTON_ON);
                     }
                     else{
                         recordManager.setRecordingStateOn();
+                        Snackbar.make(view, "recording start", Snackbar.LENGTH_SHORT)
+                                .setAction("Action", null).show();
                         fab.setImageResource(RecordManager.FLOATINGACTIONBUTTON_OFF);
                     }
                 }
