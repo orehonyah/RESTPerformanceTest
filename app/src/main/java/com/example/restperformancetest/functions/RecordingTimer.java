@@ -47,7 +47,6 @@ public class RecordingTimer{
                 MainActivity.handler().post(new Runnable() {//handler 이용
                     @Override
                     public void run() {
-                        TextView timertxt = RecordManager.activity().findViewById(R.id.main_timer_textbox);
                         HomeViewModel homeViewModel = HomeFragment.homeViewModel();
                         if(homeViewModel==null){
                             return;
