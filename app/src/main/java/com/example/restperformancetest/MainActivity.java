@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.example.restperformancetest.functions.CheckPermissions;
 import com.example.restperformancetest.functions.RecordManager;
+import com.example.restperformancetest.functions.ScreenRecord;
 import com.example.restperformancetest.service.ScreenRecordService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -55,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getSize(size);
         mHeight = size.y;
         mWidth = size.x;
-        ScreenRecordService.init();
 
         final RecordManager recordManager= RecordManager.getManager();//녹음 관련 관리해주는 클래스.
         final FloatingActionButton fab= findViewById(R.id.fab);
@@ -110,11 +110,13 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
-        if (requestCode == ScreenRecordService.PERMISSION_CODE) {
-            ScreenRecordService.InitScreenCapture initSC = new ScreenRecordService.InitScreenCapture();
-            initSC.setArgs(requestCode, resultCode, data);
-            initSC.run();
+        if(requestCode == ScreenRecord.REQUEST_CODE){
+            if(resultCode != RESULT_OK){
+                return;
+            }
+
         }
+        super.onActivityResult(requestCode,resultCode,data);
     }
 
     @Override

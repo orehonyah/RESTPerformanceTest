@@ -8,11 +8,13 @@ import android.hardware.display.VirtualDisplay;
 import android.media.MediaRecorder;
 import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.example.restperformancetest.MainActivity;
 import com.example.restperformancetest.functions.RecordManager;
@@ -25,14 +27,15 @@ import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
 
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class ScreenRecordService extends Service {
     private static final String LOG_TAG = "RecorderService";
     private MediaRecorder mMediaRecorder =  null;
     private String filename = null;
 
     public static final int PERMISSION_CODE = 10;
-    private MediaProjectionManager mProjectionManager;
-    private MediaProjection mMediaProjection;
+    private static MediaProjectionManager mProjectionManager;
+    private static MediaProjection mMediaProjection;
     private VirtualDisplay mVirtualDisplay;
     private static boolean screenCapturePermitted = false;
 
@@ -122,7 +125,6 @@ public class ScreenRecordService extends Service {
     }
 
     // private method
-
 
     public static class InitScreenCapture implements Runnable{
         private int requestCode;
