@@ -1,9 +1,12 @@
 package com.example.restperformancetest;
 
+import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 
 import com.example.restperformancetest.functions.CheckPermissions;
 import com.example.restperformancetest.functions.RecordManager;
+import com.example.restperformancetest.service.ScreenRecordService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.navigation.NavController;
@@ -20,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
@@ -28,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private static Handler handler;
+    public static int mScreenDensity;
+    public static int mWidth = 720;
+    public static int mHeight=1280;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,8 +45,18 @@ public class MainActivity extends AppCompatActivity {
 
         CheckPermissions.setActivity(this);
         CheckPermissions.checkPermissions();
-        
+
+
         RecordManager.setActivity(this);
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        mScreenDensity = metrics.densityDpi;
+        Point size = new Point();
+        getWindowManager().getDefaultDisplay().getSize(size);
+        mHeight = size.y;
+        mWidth = size.x;
+        ScreenRecordService.init();
+
         final RecordManager recordManager= RecordManager.getManager();//녹음 관련 관리해주는 클래스.
         final FloatingActionButton fab= findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -51,14 +68,24 @@ public class MainActivity extends AppCompatActivity {
                 if(recordManager.isSuccessful()){//만약 모든 job들이 성공적으로 끝났다면, recordManager
                     if(recordManager.isRecording()){
                         recordManager.setRecordingStateOff();
-                        Snackbar.make(view, "recording end", Snackbar.LENGTH_SHORT)
-                                .setAction("Action", null).show();
+                        if(RecordManager.getManager().screenReordingNotPermitted()){
+                            Snackbar.make(view, "recording start", Snackbar.LENGTH_SHORT)
+                                    .setAction("Action", null).show();
+                        }else{
+                            Snackbar.make(view, "recording end", Snackbar.LENGTH_SHORT)
+                                    .setAction("Action", null).show();
+                        }
                         fab.setImageResource(RecordManager.FLOATINGACTIONBUTTON_ON);
                     }
                     else{
                         recordManager.setRecordingStateOn();
-                        Snackbar.make(view, "recording start", Snackbar.LENGTH_SHORT)
-                                .setAction("Action", null).show();
+                        if(RecordManager.getManager().screenReordingNotPermitted()){
+                            Snackbar.make(view, "recording start", Snackbar.LENGTH_SHORT)
+                                    .setAction("Action", null).show();
+                        }else{
+                            Snackbar.make(view, "recording start", Snackbar.LENGTH_SHORT)
+                                    .setAction("Action", null).show();
+                        }
                         fab.setImageResource(RecordManager.FLOATINGACTIONBUTTON_OFF);
                     }
                 }
@@ -80,6 +107,14 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (requestCode == ScreenRecordService.PERMISSION_CODE) {
+            ScreenRecordService.InitScreenCapture initSC = new ScreenRecordService.InitScreenCapture();
+            initSC.setArgs(requestCode, resultCode, data);
+            initSC.run();
+        }
     }
 
     @Override

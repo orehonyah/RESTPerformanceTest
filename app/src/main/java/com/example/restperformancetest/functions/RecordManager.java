@@ -5,15 +5,17 @@ import android.app.ActivityManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 
-import com.example.restperformancetest.functions.runnables.RecordingServiceRunnables;
-import com.example.restperformancetest.functions.runnables.RecordingTimerRunnables;
+import com.example.restperformancetest.functions.callbacks.RecordingServiceRunnables;
+import com.example.restperformancetest.functions.callbacks.RecordingTimerRunnables;
 import com.example.restperformancetest.service.RecordService;
+import com.example.restperformancetest.service.ScreenRecordService;
 
 import java.util.LinkedList;
 
 public class RecordManager {
     public static final int FLOATINGACTIONBUTTON_ON = android.R.drawable.ic_lock_silent_mode_off;
     public static final int FLOATINGACTIONBUTTON_OFF = android.R.drawable.ic_btn_speak_now;
+
     private static RecordManager manager;
     private static Activity activity;
 
@@ -75,6 +77,9 @@ public class RecordManager {
                 return true;
         }
         return false;
+    }
+    public boolean screenReordingNotPermitted(){
+        return ScreenRecordService.permitted();
     }
     public LinkedList<Runnable> jobs(){
         return this.nextjobs;

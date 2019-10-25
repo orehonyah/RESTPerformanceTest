@@ -1,4 +1,4 @@
-package com.example.restperformancetest.functions.runnables;
+package com.example.restperformancetest.functions.callbacks;
 
 import android.widget.TextView;
 
